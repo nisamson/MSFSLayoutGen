@@ -1,0 +1,27 @@
+﻿name: Build MSFSLayoutGen And Release
+on:
+  push:
+    branches:
+      - main
+run-name: ${{ github.event.after }} - ${{ github.event.head_commit.message }}
+jobs:
+  build:
+    name: Build
+    runs-on: windows-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Setup MSVC
+        uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: '7'
+      - name: Restore Dependencies
+        run: dotnet restore
+      - name: Build
+        run: dotnet publish -c Release -r win-x64 --self-contained true -p:PublishSingleFile=true -o ./bin MSFSLayoutGen
+      - name: Upload Artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: MSFSLayoutGenWin64
+          path: ./bin/
+          if-no-files-found: error
