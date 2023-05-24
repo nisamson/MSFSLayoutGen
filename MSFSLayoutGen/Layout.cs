@@ -97,9 +97,9 @@ public readonly record struct LayoutFile(
     string Path,
     long Size,
     [property: JsonPropertyName("date")] long Timestamp) : IComparable<LayoutFile>{
-    /// <summary>
-    ///     Assumes file is in correct location relative to current working directory.
-    /// </summary>
+    /// <remarks>
+    /// Assumes file is in correct location relative to current working directory.
+    /// </remarks>
     /// <param name="path"></param>
     /// <returns></returns>
     public static LayoutFile FromFile(string path) {
